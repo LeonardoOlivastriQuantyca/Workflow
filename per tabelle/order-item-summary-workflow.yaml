@@ -1,4 +1,6 @@
 Parameters:
+  Domain:
+    Type: String
   WorkFlowDescription:
     Type: String
   ConcurrentRunsEnabled:
@@ -66,11 +68,11 @@ Resources:
       Actions:
         - JobName: !Ref ProcessToReadableJob
       Description: !Ref ProcessToReadableTriggerDescription
-      Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-odm-to-red-${TableName}-trigger"
+      Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-odm-to-rel-${TableName}-trigger"
       Type: CONDITIONAL
       Predicate:
         Conditions:
-          - JobName: !Ref IngressToProcessJob
+          - JobName: !Ref ProcessToReadableJob
           - LogicalOperator: EQUALS
           - State: SUCCEEDED 
         Logical: AND
