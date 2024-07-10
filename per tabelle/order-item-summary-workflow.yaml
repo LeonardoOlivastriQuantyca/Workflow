@@ -34,7 +34,7 @@ Resources:
       - EnableConcurrentRuns
       - !Ref ConcurrentRuns
       - !Ref "AWS::NoValue"
-      Name: !Sub "${TableName}_workflow"
+      Name: !Sub "${TableName}-workflow"
       Tags: 
         - Key: "BusinessProcess"
           Value: "Direct to Customer"
@@ -49,7 +49,7 @@ Resources:
       Actions:
         - JobName: !Ref IngressToProcessJob
       Description: !Ref IngressToProcessTriggerDescription
-      Name: !Sub "${Domain}_${SourceDest}_from_${TableName}_raw_to_odm_${TableName}_trigger"
+      Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-raw-to-odm-${TableName}-trigger"
       Type: EVENT
       WorkflowName: !Sub "${TableName}-workflow"
       Tags:
@@ -66,7 +66,7 @@ Resources:
       Actions:
         - JobName: !Ref ProcessToReadableJob
       Description: !Ref ProcessToReadableTriggerDescription
-      Name: !Sub "${Domain}_${SourceDest}_from_${TableName}_odm_to_red_${TableName}_trigger"
+      Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-odm-to-red-${TableName}-trigger"
       Type: CONDITIONAL
       Predicate:
         Conditions:

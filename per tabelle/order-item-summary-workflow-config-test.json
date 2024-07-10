@@ -5,7 +5,7 @@
         "ConcurrentRuns": 100000,
         "IngressToProcessJob": "WorkFlowJob",
         "ProcessToReadableJob": "PLACEHOLDER",
-        "TableName": "order_item_summary",
+        "TableName": "order-item-summary",
         "IngressToProcessTriggerDescription": "Triggers that detects any event in the ingress layer",
         "ProcessToReadableTriggerDescription": "Triggers that detects any event in the process layer"
     }
