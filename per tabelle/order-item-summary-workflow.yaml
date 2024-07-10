@@ -1,6 +1,8 @@
 Parameters:
   Domain:
     Type: String
+  SourceDest:
+    Type: String
   WorkFlowDescription:
     Type: String
   ConcurrentRunsEnabled:
