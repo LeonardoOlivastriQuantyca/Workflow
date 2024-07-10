@@ -1,0 +1,84 @@
+Parameters:
+  WorkFlowDescription:
+    Type: String
+  ConcurrentRunsEnabled:
+    Type: String
+    AllowedValues: [true, false]
+  ConcurrentRuns:
+    Type: Integer
+  IngressToProcessJob:
+    Type: String
+  ProcessToReadableJob:
+    Type: String
+    
+  TableName:
+    Type: String
+  IngressToProcessTriggerDescription:
+    Type: String
+  ProcessToReadableTriggerDescription:
+    Type: String
+
+
+Conditions:
+  EnableConcurrentRuns: !Equals [!Ref ConcurrentRunsEnabled, 'true']
+
+
+Resources:
+  DraftWorkflow:
+    Type: AWS::Glue::Workflow
+    Properties:
+      Description: !Ref WorkFlowDescription
+      DefaultRunProperties: !Ref "AWS::NoValue"
+      MaxConcurrentRuns:
+      !If
+      - EnableConcurrentRuns
+      - !Ref ConcurrentRuns
+      - !Ref "AWS::NoValue"
+      Name: !Sub "${TableName}_workflow"
+      Tags: 
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
+
+  IngressProcessTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Actions:
+        - JobName: !Ref IngressToProcessJob
+      Description: !Ref IngressToProcessTriggerDescription
+      Name: !Sub "${Domain}_${SourceDest}_from_${TableName}_raw_to_odm_${TableName}_trigger"
+      Type: EVENT
+      WorkflowName: !Sub "${TableName}-workflow"
+      Tags:
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
+
+  ProcessReadableTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Actions:
+        - JobName: !Ref ProcessToReadableJob
+      Description: !Ref ProcessToReadableTriggerDescription
+      Name: !Sub "${Domain}_${SourceDest}_from_${TableName}_odm_to_red_${TableName}_trigger"
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Ref IngressToProcessJob
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED 
+        Logical: AND
+      WorkflowName: !Sub "${TableName}-workflow"
+      Tags:
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
