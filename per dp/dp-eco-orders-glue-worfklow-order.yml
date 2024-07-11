@@ -1,0 +1,287 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:  
+  Domain:
+    Type: String
+    AllowedValues: [afs, bil, cst, cuc, del, dto, eco, fin, hre, iot, mat, pla, pro, pur, sls]
+  SourceSystem:
+    Type: String
+    AllowedValues: [ago, cpm, hqd, hon, scp, qlk, slf, sap, tms, sno, sie]
+  DataProduct:
+    Type: String
+  Environment:
+    Type: String
+    Description: Specifies the environment of the trigger
+    AllowedValues: [tst, prd]
+
+  OrderToProcessLayerSourceTableName:
+    Type: String
+  OrderToProcessLayerTargetTableName:
+    Type: String
+  OrderToRedshiftSourceTableName:
+    Type: String
+  OrderToRedshiftTargetTableName:
+    Type: String
+  
+  OrderAdjustmentGroupToProcessLayerSourceTableName:
+    Type: String
+  OrderAdjustmentGroupToProcessLayerTargetTableName:
+    Type: String
+  OrderAdjustmentGroupToRedshiftSourceTableName:
+    Type: String
+  OrderAdjustmentGroupToRedshiftTargetTableName:
+    Type: String
+  
+  OrderAdjustmentGroupSummaryToProcessLayerSourceTableName:
+    Type: String
+  OrderAdjustmentGroupSummaryToProcessLayerTargetTableName:
+    Type: String
+  OrderAdjustmentGroupSummaryToRedshiftSourceTableName:
+    Type: String
+  OrderAdjustmentGroupSummaryToRedshiftTargetTableName:
+    Type: String
+  
+  OrderPaymentSummaryToProcessLayerSourceTableName:
+    Type: String
+  OrderPaymentSummaryToProcessLayerTargetTableName:
+    Type: String
+  OrderPaymentSummaryToRedshiftSourceTableName:
+    Type: String
+  OrderPaymentSummaryToRedshiftTargetTableName:
+    Type: String
+  
+  OrderSummaryToProcessLayerSourceTableName:
+    Type: String
+  OrderSummaryToProcessLayerTargetTableName:
+    Type: String
+  OrderSummaryToRedshiftSourceTableName:
+    Type: String
+  OrderSummaryToRedshiftTargetTableName:
+    Type: String
+  
+  SalesChannelToProcessLayerSourceTableName:
+    Type: String
+  SalesChannelToProcessLayerTargetTableName:
+    Type: String
+  SalesChannelToRedshiftSourceTableName:
+    Type: String
+  SalesChannelToRedshiftTargetTableName:
+    Type: String
+
+Resources:
+
+#################################### Order ####################################
+
+  OrderToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderToProcessLayerSourceTableName}_raw_to_odm_${OrderToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderToProcessLayerSourceTableName}_raw_to_odm_${OrderToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  OrderToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderToRedshiftSourceTableName}_odm_to_rel_${OrderToRedshiftTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderToRedshiftSourceTableName}_odm_to_rel_${OrderToRedshiftTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+#################################### OrderAdjustmentGroup ####################################
+
+  OrderAdjustmentGroupToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  OrderAdjustmentGroupToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupToRedshiftTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupToRedshiftTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+#################################### OrderAdjustmentGroupSummary ####################################
+
+  OrderAdjustmentGroupSummaryToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupSummaryToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  OrderAdjustmentGroupSummaryToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupSummaryToRedshiftTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupSummaryToRedshiftTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+#################################### OrderPaymentSummary ####################################
+
+  OrderPaymentSummaryToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderPaymentSummaryToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderPaymentSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  OrderPaymentSummaryToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_odm_to_rel_${OrderPaymentSummaryToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_odm_to_rel_${OrderPaymentSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+#################################### OrderSummary ####################################
+
+  OrderSummaryToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderSummaryToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  OrderSummaryToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderSummaryToRedshiftTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderSummaryToRedshiftTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+#################################### SalesChannel ####################################
+
+  SalesChannelToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  SalesChannelToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_odm_to_rel_${SalesChannelToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_odm_to_rel_${SalesChannelToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
