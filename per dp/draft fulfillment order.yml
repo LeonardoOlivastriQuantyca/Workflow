@@ -111,6 +111,7 @@ Resources:
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderToProcessLayerTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -128,6 +129,7 @@ Resources:
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderToRedshiftSourceTableName}_odm_to_rel_${FulfillmentOrderToRedshiftTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -147,6 +149,7 @@ Resources:
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -164,6 +167,7 @@ Resources:
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${FulfillmentOrderItemAdjustmentToRedshiftTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -183,6 +187,7 @@ Resources:
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -200,6 +205,7 @@ Resources:
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${FulfillmentOrderLineItemToRedshiftTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
