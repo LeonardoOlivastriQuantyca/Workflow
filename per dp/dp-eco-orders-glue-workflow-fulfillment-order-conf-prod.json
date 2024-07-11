@@ -1,0 +1,23 @@
+{
+  "Parameters": {
+      "Domain": "eco",
+      "SourceSystem": "slf",
+      "DataProduct": "orders",
+      "Environment": "prd",
+
+      "FulfillmentOrderToProcessLayerSourceTableName": "fulfillment_order",
+      "FulfillmentOrderToProcessLayerTargetTableName": "fulfillment_order",
+      "FulfillmentOrderToRedshiftSourceTableName": "fulfillment_order",
+      "FulfillmentOrderToRedshiftTargetTableName": "fulfillment_order",
+
+      "FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName": "fulfillment_order_item_adjustment",
+      "FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName": "fulfillment_order_item_adjustment",
+      "FulfillmentOrderItemAdjustmentToRedshiftSourceTableName": "fulfillment_order_item_adjustment",
+      "FulfillmentOrderItemAdjustmentToRedshiftTargetTableName": "fulfillment_order_item_adjustment",
+
+      "FulfillmentOrderLineItemToProcessLayerSourceTableName": "fulfillment_order_line_item",
+      "FulfillmentOrderLineItemToProcessLayerTargetTableName": "fulfillment_order_line_item",
+      "FulfillmentOrderLineItemToRedshiftSourceTableName": "fulfillment_order_line_item",
+      "FulfillmentOrderLineItemToRedshiftTargetTableName": "fulfillment_order_line_item"
+  }
+}
