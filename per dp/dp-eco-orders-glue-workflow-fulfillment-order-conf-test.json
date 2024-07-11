@@ -3,7 +3,10 @@
       "Domain": "eco",
       "SourceSystem": "slf",
       "DataProduct": "orders",
+      "SubDataProduct": "fulfillment-order",
       "Environment": "tst",
+
+      "WorkFlowDescription": "Set of orchestrated triggers",
 
       "FulfillmentOrderToProcessLayerSourceTableName": "fulfillment_order",
       "FulfillmentOrderToProcessLayerTargetTableName": "fulfillment_order",
