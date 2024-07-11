@@ -102,9 +102,8 @@ Resources:
   FulfillmentOrderToProcessLayerHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 * ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderToProcessLayerTargetTableName}'
@@ -140,9 +139,8 @@ Resources:
   FulfillmentOrderItemAdjustmentToProcessLayerHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName}'
@@ -178,9 +176,8 @@ Resources:
   FulfillmentOrderLineItemToProcessLayerHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}'
@@ -210,3 +207,45 @@ Resources:
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
         Supplier: "Quantyca"
+
+
+
+  #     IngressProcessTrigger:
+  # Type: AWS::Glue::Trigger
+  # Properties:
+  #   Actions:
+  #     - JobName: !Ref IngressToProcessJob
+  #   Description: !Ref IngressToProcessTriggerDescription
+  #   Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-raw-to-odm-${TableName}-trigger"
+  #   Type: EVENT
+  #   WorkflowName: !Sub "${TableName}-workflow"
+  #   Tags:
+  #     - Key: "BusinessProcess"
+  #       Value: "Direct to Customer"
+  #     - Key: "FunctionalArea"
+  #       Value: "eCommerce"
+  #     - Key: "Supplier"
+  #       Value: "Quantyca"
+
+  #rocessReadableTrigger:
+  # Type: AWS::Glue::Trigger
+  # Properties:
+  #   Actions:
+  #     - JobName: !Ref ProcessToReadableJob
+  #   Description: !Ref ProcessToReadableTriggerDescription
+  #   Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-odm-to-rel-${TableName}-trigger"
+  #   Type: CONDITIONAL
+  #   Predicate:
+  #     Conditions:
+  #       - JobName: !Ref ProcessToReadableJob
+  #       - LogicalOperator: EQUALS
+  #       - State: SUCCEEDED 
+  #     Logical: AND
+  #   WorkflowName: !Sub "${TableName}-workflow"
+  #   Tags:
+  #     - Key: "BusinessProcess"
+  #       Value: "Direct to Customer"
+  #     - Key: "FunctionalArea"
+  #       Value: "eCommerce"
+  #     - Key: "Supplier"
+  #       Value: "Quantyca"
