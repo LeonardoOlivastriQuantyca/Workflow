@@ -82,8 +82,58 @@ Parameters:
 
 Resources:
 
-#################################### Order ####################################
+#################################### Workflow ####################################
 
+  FullfillmentWorkflow:
+    Type: AWS::Glue::Workflow
+    Properties:
+      Description: !Ref WorkFlowDescription 
+      DefaultRunProperties: !Ref "AWS::NoValue" 
+      MaxConcurrentRuns:
+      !If
+      - EnableConcurrentRuns
+      - !Ref ConcurrentRuns
+      - !Ref "AWS::NoValue"
+      Name: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      Tags: 
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
+
+#################################### RuleToStartWorkflow ####################################
+
+  WorkflowStartRule:
+    Type: AWS::Events::Rule
+    Properties: 
+      Description: !Ref RuleDescription
+      ScheduleExpression: cron(0 * ? * MON-SUN *)
+      Name: !Sub "dp-${Domain}-${DataProductName}-workflow-${SubDataProduct}-${Environment}-triggering-rule"
+      State: ENABLED
+      Targets:
+        -
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderToProcessLayerSourceTableName}_raw_to_odm_${OrderToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub "${Domain}_${SourceSystem}_from_${OrderToProcessLayerSourceTableName}_raw_to_odm_${OrderToProcessLayerTargetTableName}_${Environment}_trigger"
+        -
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub "${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupToProcessLayerTargetTableName}_${Environment}_trigger"
+        -
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupSummaryToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+        -
+        Arn: !Sub 'arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderPaymentSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+        Id: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderPaymentSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+        -
+        Arn: !Sub 'arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+        Id: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+        -
+        Arn: !Sub 'arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}_${Environment}_trigger'
+        Id: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}_${Environment}_trigger'
+
+#################################### Order ####################################
+#TODO DA SISTEMARE TUTTI I TRIGGER
   OrderToProcessLayerHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
