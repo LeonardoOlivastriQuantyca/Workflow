@@ -28,7 +28,7 @@ Conditions:
 
 
 Resources:
-  DraftWorkflow:
+  JobsWorkFlow:
     Type: AWS::Glue::Workflow
     Properties:
       Description: !Ref WorkFlowDescription
