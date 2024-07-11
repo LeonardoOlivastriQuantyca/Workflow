@@ -5,9 +5,9 @@
         "WorkFlowDescription": "This workflow contains all the glue jobs from ingress to process layer",
         "ConcurrentRunsEnabled": "false",
         "ConcurrentRuns": 100000,
-        "IngressToProcessJob": "move-refund-to-process-layer",
-        "ProcessToReadableJob": "move-refund-to-redshift",
-        "TableName": "refund",
+        "IngressToProcessJob": "move-return-order-item-adjustment-to-process-layer",
+        "ProcessToReadableJob": "move-return-order-item-adjustment-to-redshift",
+        "TableName": "return-order-item-adjustment",
         "IngressToProcessTriggerDescription": "Triggers that detects any event in the ingress layer",
         "ProcessToReadableTriggerDescription": "Triggers that detects any event in the process layer"
     }
