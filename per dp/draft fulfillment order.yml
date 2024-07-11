@@ -119,9 +119,13 @@ Resources:
   FulfillmentOrderToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderToProcessLayerTargetTableName}_${Environment}_trigger'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderToRedshiftSourceTableName}_odm_to_rel_${FulfillmentOrderToRedshiftTargetTableName}'
@@ -156,9 +160,13 @@ Resources:
   FulfillmentOrderItemAdjustmentToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${FulfillmentOrderItemAdjustmentToRedshiftTargetTableName}'
@@ -193,9 +201,13 @@ Resources:
   FulfillmentOrderLineItemToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions: 
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${FulfillmentOrderLineItemToRedshiftTargetTableName}'
@@ -207,45 +219,3 @@ Resources:
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
         Supplier: "Quantyca"
-
-
-
-  #     IngressProcessTrigger:
-  # Type: AWS::Glue::Trigger
-  # Properties:
-  #   Actions:
-  #     - JobName: !Ref IngressToProcessJob
-  #   Description: !Ref IngressToProcessTriggerDescription
-  #   Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-raw-to-odm-${TableName}-trigger"
-  #   Type: EVENT
-  #   WorkflowName: !Sub "${TableName}-workflow"
-  #   Tags:
-  #     - Key: "BusinessProcess"
-  #       Value: "Direct to Customer"
-  #     - Key: "FunctionalArea"
-  #       Value: "eCommerce"
-  #     - Key: "Supplier"
-  #       Value: "Quantyca"
-
-  #rocessReadableTrigger:
-  # Type: AWS::Glue::Trigger
-  # Properties:
-  #   Actions:
-  #     - JobName: !Ref ProcessToReadableJob
-  #   Description: !Ref ProcessToReadableTriggerDescription
-  #   Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-odm-to-rel-${TableName}-trigger"
-  #   Type: CONDITIONAL
-  #   Predicate:
-  #     Conditions:
-  #       - JobName: !Ref ProcessToReadableJob
-  #       - LogicalOperator: EQUALS
-  #       - State: SUCCEEDED 
-  #     Logical: AND
-  #   WorkflowName: !Sub "${TableName}-workflow"
-  #   Tags:
-  #     - Key: "BusinessProcess"
-  #       Value: "Direct to Customer"
-  #     - Key: "FunctionalArea"
-  #       Value: "eCommerce"
-  #     - Key: "Supplier"
-  #       Value: "Quantyca"
