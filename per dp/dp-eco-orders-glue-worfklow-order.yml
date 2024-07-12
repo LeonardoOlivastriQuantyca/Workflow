@@ -154,7 +154,12 @@ Resources:
   OrderToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderToProcessLayerSourceTableName}_raw_to_odm_${OrderToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
@@ -191,7 +196,12 @@ Resources:
   OrderAdjustmentGroupToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
@@ -228,7 +238,12 @@ Resources:
   OrderAdjustmentGroupSummaryToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: EVENT
+      Type: CONDITIONAL
+      Predicate: 
+        Conditions: 
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupSummaryToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       # StartOnCreation: true
       Actions:
@@ -264,7 +279,12 @@ Resources:
   OrderPaymentSummaryToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderPaymentSummaryToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
@@ -301,7 +321,12 @@ Resources:
   OrderSummaryToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderSummaryToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
@@ -338,7 +363,12 @@ Resources:
   SalesChannelToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
