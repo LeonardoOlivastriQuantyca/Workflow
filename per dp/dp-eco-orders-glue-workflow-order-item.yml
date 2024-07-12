@@ -70,7 +70,6 @@ Resources:
     Type: AWS::Glue::Workflow
     Properties:
       Description: !Ref WorkFlowDescription 
-      DefaultRunProperties: !Ref "AWS::NoValue" 
       MaxConcurrentRuns:
       !If
       - EnableConcurrentRuns
@@ -104,7 +103,6 @@ Resources:
         -
         Arn: #!Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger"
         Id: #!Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
-
 
 #################################### OrderItem ####################################
 
