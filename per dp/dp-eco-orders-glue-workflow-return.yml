@@ -114,13 +114,13 @@ Resources:
     Properties:
       Type: SCHEDULED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -131,13 +131,13 @@ Resources:
     Properties:
       Type: SCHEDULED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderToRedshiftTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderToRedshiftTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -150,13 +150,13 @@ Resources:
     Properties:
       Type: SCHEDULED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -167,13 +167,13 @@ Resources:
     Properties:
       Type: SCHEDULED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderItemAdjustmentToRedshiftTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderItemAdjustmentToRedshiftTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -186,13 +186,13 @@ Resources:
     Properties:
       Type: SCHEDULED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -203,13 +203,13 @@ Resources:
     Properties:
       Type: SCHEDULED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderLineItemToRedshiftTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderLineItemToRedshiftTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -222,13 +222,13 @@ Resources:
     Properties:
       Type: SCHEDULED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
@@ -239,13 +239,13 @@ Resources:
     Properties:
       Type: SCHEDULED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
       # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_odm_to_rel_${RefundToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_odm_to_rel_${RefundToProcessLayerTargetTableName}_${Environment}_trigger'
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
       Tags: 
         Business-Process: "Direct to Customer"
         Functional-area: "eCommerce"
