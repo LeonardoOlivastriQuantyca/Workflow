@@ -122,7 +122,7 @@ Resources:
       Type: CONDITIONAL
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderToProcessLayerTargetTableName}_${Environment}_trigger'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
@@ -163,7 +163,7 @@ Resources:
       Type: CONDITIONAL
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
@@ -204,7 +204,7 @@ Resources:
       Type: CONDITIONAL
       Predicate:
         Conditions: 
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
