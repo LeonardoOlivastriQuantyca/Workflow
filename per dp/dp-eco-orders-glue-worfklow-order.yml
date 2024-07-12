@@ -132,7 +132,7 @@ Resources:
          Id: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}_${Environment}_trigger'
 
 #################################### Order ####################################
-#TODO DA SISTEMARE TUTTI I TRIGGER (AGGIUNGERE IL RIFERIMENTO AL WORKFLOW NAME, MODIFICARE L'INGRESS TRIGGER IN EVENT E IL PROCESS IN CONDITIONAL, RIMUOVERE LA SCHEDULE)
+
   OrderToProcessLayerHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
