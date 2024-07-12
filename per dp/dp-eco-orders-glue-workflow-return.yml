@@ -129,7 +129,12 @@ Resources:
   ReturnOrderToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       # StartOnCreation: true
       Actions:
@@ -165,7 +170,12 @@ Resources:
   ReturnOrderItemAdjustmentToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       # StartOnCreation: true
       Actions:
@@ -201,7 +211,12 @@ Resources:
   ReturnOrderLineItemToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       # StartOnCreation: true
       Actions:
@@ -237,7 +252,12 @@ Resources:
   RefundToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: CONDITIONAL
+      Predicate:
+        Conditions:
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}'
+          - LogicalOperator: EQUALS
+          - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
       # StartOnCreation: true
       Actions:
