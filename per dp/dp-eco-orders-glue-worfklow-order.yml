@@ -88,7 +88,6 @@ Resources:
     Type: AWS::Glue::Workflow
     Properties:
       Description: !Ref WorkFlowDescription 
-      DefaultRunProperties: !Ref "AWS::NoValue" 
       MaxConcurrentRuns:
       !If
       - EnableConcurrentRuns
