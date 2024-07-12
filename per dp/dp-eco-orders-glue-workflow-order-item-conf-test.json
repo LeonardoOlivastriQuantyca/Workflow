@@ -3,7 +3,13 @@
       "Domain": "eco",
       "SourceSystem": "slf",
       "DataProduct": "orders",
+      "SubDataProduct": "order-item",
       "Environment": "tst",
+      
+      "WorkFlowDescription": "Set of orchestrated triggers",
+      "EnableConcurrentRuns": "false",
+      "ConcurrentRuns": 100000,
+      "RuleDescription": "Starts the workflow with an hourly schedule",
 
       "OrderItemToProcessLayerTargetTableName": "order_item",
       "OrderItemToProcessLayerSourceTableName": "order_item",
