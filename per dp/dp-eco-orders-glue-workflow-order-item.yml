@@ -95,14 +95,17 @@ Resources:
       State: ENABLED
       Targets:
         -
-        Arn: #!Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceDest}_from_${FulfillmentOrderToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderToProcessLayerSourceTableName}_${Environment}_trigger"
-        Id: #!Sub "${Domain}_${SourceSystem}_from_${FulfillmentOrderToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderToProcessLayerTargetTableName}_${Environment}_trigger"
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderItemToProcessLayerSourceTableName}_raw_to_odm_${OrderItemToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToProcessLayerSourceTableName}_raw_to_odm_${OrderItemToProcessLayerTargetTableName}_${Environment}_trigger'
         -
-        Arn: #!Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger"
-        Id: #!Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
         -
-        Arn: #!Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger"
-        Id: #!Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderItemSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemSummaryToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+        -
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_odm_to_rel_${ShipmentToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_odm_to_rel_${ShipmentToProcessLayerTargetTableName}_${Environment}_trigger'
 
 #################################### OrderItem ####################################
 
