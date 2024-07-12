@@ -9,10 +9,22 @@ Parameters:
     AllowedValues: [ago, cpm, hqd, hon, scp, qlk, slf, sap, tms, sno, sie]
   DataProduct:
     Type: String
+  SubDataProduct:
+    Type: String
   Environment:
     Type: String
     Description: Specifies the environment of the trigger
     AllowedValues: [tst, prd]
+
+  WorkFlowDescription:
+    Type: String
+  EnableConcurrentRuns:
+    Type: String
+    AllowedValues: [true, false]
+  ConcurrentRuns:
+    Type: Integer
+  RuleDescription:
+    Type: String
 
   OrderItemToProcessLayerTargetTableName:
     Type: String
