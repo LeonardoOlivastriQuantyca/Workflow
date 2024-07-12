@@ -64,6 +64,49 @@ Parameters:
 
 Resources:
 
+#################################### Workflow ####################################
+
+  FullfillmentWorkflow:
+    Type: AWS::Glue::Workflow
+    Properties:
+      Description: !Ref WorkFlowDescription 
+      MaxConcurrentRuns:
+      !If
+      - EnableConcurrentRuns
+      - !Ref ConcurrentRuns
+      - !Ref "AWS::NoValue"
+      Name: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      Tags: 
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
+
+#################################### RuleToStartWorkflow ####################################
+
+  WorkflowStartRule:
+    Type: AWS::Events::Rule
+    Properties: 
+      Description: !Ref RuleDescription
+      ScheduleExpression: cron(0 * ? * MON-SUN *)
+      Name: !Sub "dp-${Domain}-${DataProduct}-workflow-${SubDataProduct}-${Environment}-triggering-rule"
+      State: ENABLED
+      Targets:
+        -
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger'
+        -
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+        -
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+        -
+        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}_${Environment}_trigger"
+        Id: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}_${Environment}_trigger'
+
 #################################### ReturnOrder ####################################
 
   ReturnOrderToProcessLayerHourlyTrigger:
