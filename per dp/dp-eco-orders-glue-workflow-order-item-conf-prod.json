@@ -1,0 +1,28 @@
+{
+  "Parameters": {
+      "Domain": "eco",
+      "SourceSystem": "slf",
+      "DataProduct": "orders",
+      "Environment": "prd",
+
+      "OrderItemToProcessLayerTargetTableName": "order_item",
+      "OrderItemToProcessLayerSourceTableName": "order_item",
+      "OrderItemToRedshiftSourceTableName": "order_item",
+      "OrderItemToRedshiftTargetTableName": "order_item",
+
+      "OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName": "order_item_adjustment_line_summary",
+      "OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName": "order_item_adjustment_line_summary",
+      "OrderItemAdjustmentLineSummaryToRedshiftSourceTableName": "order_item_adjustment_line_summary",
+      "OrderItemAdjustmentLineSummaryToRedshiftTargetTableName": "order_item_adjustment_line_summary",
+      
+      "OrderItemSummaryToProcessLayerSourceTableName": "order_item_summary",
+      "OrderItemSummaryToProcessLayerTargetTableName": "order_item_summary",
+      "OrderItemSummaryToRedshiftSourceTableName": "order_item_summary",
+      "OrderItemSummaryToRedshiftTargetTableName": "order_item_summary",
+      
+      "ShipmentToProcessLayerSourceTableName": "shipment",
+      "ShipmentToProcessLayerTargetTableName": "shipment",
+      "ShipmentToRedshiftSourceTableName": "shipment",
+      "ShipmentToRedshiftTargetTableName": "shipment"
+  }
+}
