@@ -112,7 +112,7 @@ Resources:
   ReturnOrderToProcessLayerHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: EVENT
       Description: DESCRIPTION_SCHEDULED
       # StartOnCreation: true
       Actions:
@@ -148,7 +148,7 @@ Resources:
   ReturnOrderItemAdjustmentToProcessLayerHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: EVENT
       Description: DESCRIPTION_SCHEDULED
       # StartOnCreation: true
       Actions:
@@ -184,7 +184,7 @@ Resources:
   ReturnOrderLineItemToProcessLayerHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: EVENT
       Description: DESCRIPTION_SCHEDULED
       # StartOnCreation: true
       Actions:
@@ -220,7 +220,7 @@ Resources:
   RefundToProcessLayerHourlyTrigger:
     Type: AWS::Glue::Trigger
     Properties:
-      Type: SCHEDULED
+      Type: EVENT
       Description: DESCRIPTION_SCHEDULED
       # StartOnCreation: true
       Actions:
