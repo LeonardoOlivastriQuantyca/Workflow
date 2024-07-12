@@ -110,7 +110,7 @@ Resources:
     Properties: 
       Description: !Ref RuleDescription
       ScheduleExpression: cron(0 * ? * MON-SUN *)
-      Name: !Sub "dp-${Domain}-${DataProductName}-workflow-${SubDataProduct}-${Environment}-triggering-rule"
+      Name: !Sub "dp-${Domain}-${DataProduct}-workflow-${SubDataProduct}-${Environment}-triggering-rule"
       State: ENABLED
       Targets:
         -
