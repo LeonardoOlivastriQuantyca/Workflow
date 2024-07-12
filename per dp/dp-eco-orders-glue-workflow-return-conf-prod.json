@@ -1,0 +1,34 @@
+{
+  "Parameters": {
+      "Domain": "eco",
+      "SourceSystem": "slf",
+      "DataProduct": "orders",
+      "SubDataProduct": "return",
+      "Environment": "prd",
+
+      "WorkFlowDescription": "Set of orchestrated triggers",
+      "EnableConcurrentRuns": "false",
+      "ConcurrentRuns": 100000,
+      "RuleDescription": "Starts the workflow with an hourly schedule",
+
+      "ReturnOrderToProcessLayerSourceTableName": "return_order",
+      "ReturnOrderToProcessLayerTargetTableName": "return_order",
+      "ReturnOrderToRedshiftSourceTableName": "return_order",
+      "ReturnOrderToRedshiftTargetTableName": "return_order",
+
+      "ReturnOrderItemAdjustmentToProcessLayerSourceTableName": "return_order_item_adjustment",
+      "ReturnOrderItemAdjustmentToProcessLayerTargetTableName": "return_order_item_adjustment",
+      "ReturnOrderItemAdjustmentToRedshiftSourceTableName": "return_order_item_adjustment",
+      "ReturnOrderItemAdjustmentToRedshiftTargetTableName": "return_order_item_adjustment",
+
+      "ReturnOrderLineItemToProcessLayerSourceTableName": "return_order_line_item",
+      "ReturnOrderLineItemToProcessLayerTargetTableName": "return_order_line_item",
+      "ReturnOrderLineItemToRedshiftSourceTableName": "return_order_line_item",
+      "ReturnOrderLineItemToRedshiftTargetTableName": "return_order_line_item",
+
+      "RefundToProcessLayerSourceTableName": "refund",
+      "RefundToProcessLayerTargetTableName": "refund",
+      "RefundToRedshiftSourceTableName": "refund",
+      "RefundToRedshiftTargetTableName": "refund"
+  }
+}

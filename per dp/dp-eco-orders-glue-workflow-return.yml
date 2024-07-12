@@ -1,0 +1,197 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:  
+  Domain:
+    Type: String
+    AllowedValues: [afs, bil, cst, cuc, del, dto, eco, fin, hre, iot, mat, pla, pro, pur, sls]
+  SourceSystem:
+    Type: String
+    AllowedValues: [ago, cpm, hqd, hon, scp, qlk, slf, sap, tms, sno, sie]
+  DataProduct:
+    Type: String
+  Environment:
+    Type: String
+    Description: Specifies the environment of the trigger
+    AllowedValues: [tst, prd]
+
+  ReturnOrderToProcessLayerSourceTableName:
+    Type: String
+  ReturnOrderToProcessLayerTargetTableName:
+    Type: String
+  ReturnOrderToRedshiftSourceTableName:
+    Type: String
+  ReturnOrderToRedshiftTargetTableName:
+    Type: String
+
+  ReturnOrderItemAdjustmentToProcessLayerSourceTableName:
+    Type: String
+  ReturnOrderItemAdjustmentToProcessLayerTargetTableName:
+    Type: String
+  ReturnOrderItemAdjustmentToRedshiftSourceTableName:
+    Type: String
+  ReturnOrderItemAdjustmentToRedshiftTargetTableName:
+    Type: String
+
+  ReturnOrderLineItemToProcessLayerSourceTableName:
+    Type: String
+  ReturnOrderLineItemToProcessLayerTargetTableName:
+    Type: String
+  ReturnOrderLineItemToRedshiftSourceTableName:
+    Type: String
+  ReturnOrderLineItemToRedshiftTargetTableName:
+    Type: String
+
+  RefundToProcessLayerSourceTableName:
+    Type: String
+  RefundToProcessLayerTargetTableName:
+    Type: String
+  RefundToRedshiftSourceTableName:
+    Type: String
+  RefundToRedshiftTargetTableName:
+    Type: String 
+
+Resources:
+
+#################################### ReturnOrder ####################################
+
+  ReturnOrderToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  ReturnOrderToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderToRedshiftTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderToRedshiftTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+#################################### ReturnOrderItemAdjustment ####################################
+
+  ReturnOrderItemAdjustmentToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  ReturnOrderItemAdjustmentToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderItemAdjustmentToRedshiftTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderItemAdjustmentToRedshiftTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+#################################### ReturnOrderLineItem ####################################
+
+  ReturnOrderLineItemToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  ReturnOrderLineItemToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderLineItemToRedshiftTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderLineItemToRedshiftTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+#################################### Refund ####################################
+
+  RefundToProcessLayerHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
+
+  RefundToRedshiftHourlyTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Type: SCHEDULED
+      Description: DESCRIPTION_SCHEDULED
+      Schedule: cron(0 21 ? * MON-SUN *)
+      # StartOnCreation: true
+      Actions:
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_odm_to_rel_${RefundToProcessLayerTargetTableName}'
+          Arguments:
+            '--job-bookmark-option': job-bookmark-enable   
+      Name: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_odm_to_rel_${RefundToProcessLayerTargetTableName}_${Environment}_trigger'
+      Tags: 
+        Business-Process: "Direct to Customer"
+        Functional-area: "eCommerce"
+        Supplier: "Quantyca"
