@@ -95,17 +95,17 @@ Resources:
       State: ENABLED
       Targets:
         -
-        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger"
-        Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger'
         -
-        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger"
-        Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
         -
-        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger"
-        Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
         -
-        Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}_${Environment}_trigger"
-        Id: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToPr ocessLayerTargetTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}_${Environment}_trigger' 
 
 #################################### ReturnOrder ####################################
 
