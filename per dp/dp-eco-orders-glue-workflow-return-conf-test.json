@@ -3,7 +3,7 @@
       "Domain": "eco",
       "SourceSystem": "slf",
       "DataProduct": "orders",
-      "SubDataProduct": "return",
+      "ReturnArea": "return",
       "Environment": "tst",
 
       "WorkFlowDescription": "Set of orchestrated triggers",
@@ -15,20 +15,24 @@
       "ReturnOrderToProcessLayerTargetTableName": "return_order",
       "ReturnOrderToRedshiftSourceTableName": "return_order",
       "ReturnOrderToRedshiftTargetTableName": "return_order",
+      "ReturnOrderObjectName": "return-order",
 
       "ReturnOrderItemAdjustmentToProcessLayerSourceTableName": "return_order_item_adjustment",
       "ReturnOrderItemAdjustmentToProcessLayerTargetTableName": "return_order_item_adjustment",
       "ReturnOrderItemAdjustmentToRedshiftSourceTableName": "return_order_item_adjustment",
       "ReturnOrderItemAdjustmentToRedshiftTargetTableName": "return_order_item_adjustment",
+      "ReturnOrderItemAdjustmentObjectName": "return-order-item-adjustment",
 
       "ReturnOrderLineItemToProcessLayerSourceTableName": "return_order_line_item",
       "ReturnOrderLineItemToProcessLayerTargetTableName": "return_order_line_item",
       "ReturnOrderLineItemToRedshiftSourceTableName": "return_order_line_item",
       "ReturnOrderLineItemToRedshiftTargetTableName": "return_order_line_item",
+      "ReturnOrderLineItemObjectName": "return-order-line-item",
 
       "RefundToProcessLayerSourceTableName": "refund",
       "RefundToProcessLayerTargetTableName": "refund",
       "RefundToRedshiftSourceTableName": "refund",
-      "RefundToRedshiftTargetTableName": "refund"
+      "RefundToRedshiftTargetTableName": "refund",
+      "RefundObjectName": "refund"
   }
 }

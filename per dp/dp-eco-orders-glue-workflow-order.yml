@@ -9,7 +9,7 @@ Parameters:
     AllowedValues: [ago, cpm, hqd, hon, scp, qlk, slf, sap, tms, sno, sie]
   DataProduct:
     Type: String
-  SubDataProduct:
+  OrderArea:
     Type: String
   Environment:
     Type: String
@@ -20,9 +20,9 @@ Parameters:
     Type: String
   EnableConcurrentRuns:
     Type: String
-    AllowedValues: [true, false]
+    AllowedValues: ['true', 'false']
   ConcurrentRuns:
-    Type: Integer
+    Type: Number
   RuleDescription:
     Type: String
 
@@ -34,6 +34,8 @@ Parameters:
     Type: String
   OrderToRedshiftTargetTableName:
     Type: String
+  OrderObjectName:
+    Type: String
   
   OrderAdjustmentGroupToProcessLayerSourceTableName:
     Type: String
@@ -42,6 +44,8 @@ Parameters:
   OrderAdjustmentGroupToRedshiftSourceTableName:
     Type: String
   OrderAdjustmentGroupToRedshiftTargetTableName:
+    Type: String
+  OrderAdjustmentGroupObjectName:
     Type: String
   
   OrderAdjustmentGroupSummaryToProcessLayerSourceTableName:
@@ -52,6 +56,8 @@ Parameters:
     Type: String
   OrderAdjustmentGroupSummaryToRedshiftTargetTableName:
     Type: String
+  OrderAdjustmentGroupSummaryObjectName:
+    Type: String
   
   OrderPaymentSummaryToProcessLayerSourceTableName:
     Type: String
@@ -60,6 +66,8 @@ Parameters:
   OrderPaymentSummaryToRedshiftSourceTableName:
     Type: String
   OrderPaymentSummaryToRedshiftTargetTableName:
+    Type: String
+  OrderPaymentSummaryObjectName:
     Type: String
   
   OrderSummaryToProcessLayerSourceTableName:
@@ -70,6 +78,8 @@ Parameters:
     Type: String
   OrderSummaryToRedshiftTargetTableName:
     Type: String
+  OrderSummaryObjectName:
+    Type: String
   
   SalesChannelToProcessLayerSourceTableName:
     Type: String
@@ -79,6 +89,13 @@ Parameters:
     Type: String
   SalesChannelToRedshiftTargetTableName:
     Type: String
+  SalesChannelObjectName:
+    Type: String
+
+
+Conditions:
+  ConcurrentRunsEnabled: !Equals [EnableConcurrentRuns, 'true']
+
 
 Resources:
 
@@ -90,10 +107,10 @@ Resources:
       Description: !Ref WorkFlowDescription 
       MaxConcurrentRuns:
       !If
-      - EnableConcurrentRuns
+      - ConcurrentRunsEnabled
       - !Ref ConcurrentRuns
       - !Ref "AWS::NoValue"
-      Name: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      Name: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
         - Key: "BusinessProcess"
           Value: "Direct to Customer"
@@ -109,7 +126,7 @@ Resources:
     Properties: 
       Description: !Ref RuleDescription
       ScheduleExpression: cron(0 * ? * MON-SUN *)
-      Name: !Sub "dp-${Domain}-${DataProduct}-workflow-${SubDataProduct}-${Environment}-triggering-rule"
+      Name: !Sub "dp-${Domain}-${DataProduct}-workflow-${OrderArea}-${Environment}-triggering-rule"
       State: ENABLED
       Targets:
         -
@@ -137,17 +154,20 @@ Resources:
     Type: AWS::Glue::Trigger
     Properties:
       Type: EVENT
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderObjectName} job from ingress to process layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderToProcessLayerSourceTableName}_raw_to_odm_${OrderToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderToProcessLayerSourceTableName}_raw_to_odm_${OrderToProcessLayerTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
   OrderToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
@@ -158,17 +178,20 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderToProcessLayerSourceTableName}_raw_to_odm_${OrderToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderObjectName} job from process to readable layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderToRedshiftSourceTableName}_odm_to_rel_${OrderToRedshiftTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderToRedshiftSourceTableName}_odm_to_rel_${OrderToRedshiftTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
 #################################### OrderAdjustmentGroup ####################################
 
@@ -176,17 +199,20 @@ Resources:
     Type: AWS::Glue::Trigger
     Properties:
       Type: EVENT
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderAdjustmentGroupObjectName} job from ingress to process layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupToProcessLayerTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
   OrderAdjustmentGroupToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
@@ -197,17 +223,20 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderAdjustmentGroupObjectName} job from process to readable layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupToRedshiftTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupToRedshiftTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
 #################################### OrderAdjustmentGroupSummary ####################################
 
@@ -215,17 +244,20 @@ Resources:
     Type: AWS::Glue::Trigger
     Properties:
       Type: EVENT
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderAdjustmentGroupSummaryObjectName} job from ingress to process layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupSummaryToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
   OrderAdjustmentGroupSummaryToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
@@ -236,17 +268,20 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupSummaryToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderAdjustmentGroupSummaryObjectName} job from process to readable layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupSummaryToRedshiftTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupSummaryToRedshiftTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
 #################################### OrderPaymentSummary ####################################
 
@@ -254,17 +289,20 @@ Resources:
     Type: AWS::Glue::Trigger
     Properties:
       Type: EVENT
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderPaymentSummaryObjectName} job from ingress to process layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderPaymentSummaryToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderPaymentSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
   OrderPaymentSummaryToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
@@ -275,17 +313,20 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderPaymentSummaryToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderPaymentSummaryObjectName} job from process to readable layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_odm_to_rel_${OrderPaymentSummaryToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_odm_to_rel_${OrderPaymentSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
 #################################### OrderSummary ####################################
 
@@ -293,17 +334,20 @@ Resources:
     Type: AWS::Glue::Trigger
     Properties:
       Type: EVENT
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderSummaryObjectName} job from ingress to process layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderSummaryToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
   OrderSummaryToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
@@ -314,17 +358,20 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderSummaryToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${OrderSummaryObjectName} job from process to readable layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderSummaryToRedshiftTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderSummaryToRedshiftTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
 #################################### SalesChannel ####################################
 
@@ -332,17 +379,20 @@ Resources:
     Type: AWS::Glue::Trigger
     Properties:
       Type: EVENT
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${SalesChannelObjectName} job from ingress to process layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"
 
   SalesChannelToRedshiftHourlyTrigger:
     Type: AWS::Glue::Trigger
@@ -353,14 +403,17 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      Description: DESCRIPTION_SCHEDULED
+      Description: !Sub "trigger for ${SalesChannelObjectName} job from process to readable layer"
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_odm_to_rel_${SalesChannelToProcessLayerTargetTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
       Name: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_odm_to_rel_${SalesChannelToProcessLayerTargetTableName}_${Environment}_trigger'
-      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${SubDataProduct}" 
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderArea}" 
       Tags: 
-        Business-Process: "Direct to Customer"
-        Functional-area: "eCommerce"
-        Supplier: "Quantyca"
+        - Key: "BusinessProcess"
+          Value: "Direct to Customer"
+        - Key: "FunctionalArea"
+          Value: "eCommerce"
+        - Key: "Supplier"
+          Value: "Quantyca"

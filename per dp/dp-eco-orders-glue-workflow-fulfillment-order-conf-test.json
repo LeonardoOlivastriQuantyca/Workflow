@@ -3,7 +3,7 @@
       "Domain": "eco",
       "SourceSystem": "slf",
       "DataProduct": "orders",
-      "SubDataProduct": "fulfillment-order",
+      "FulfillmentOrderArea": "fulfillment-order",
       "Environment": "tst",
 
       "WorkFlowDescription": "Set of orchestrated triggers",
@@ -15,15 +15,18 @@
       "FulfillmentOrderToProcessLayerTargetTableName": "fulfillment_order",
       "FulfillmentOrderToRedshiftSourceTableName": "fulfillment_order",
       "FulfillmentOrderToRedshiftTargetTableName": "fulfillment_order",
+      "FulfillmentOrderObjectName": "fulfillment-order",
 
       "FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName": "fulfillment_order_item_adjustment",
       "FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName": "fulfillment_order_item_adjustment",
       "FulfillmentOrderItemAdjustmentToRedshiftSourceTableName": "fulfillment_order_item_adjustment",
       "FulfillmentOrderItemAdjustmentToRedshiftTargetTableName": "fulfillment_order_item_adjustment",
+      "FulfillmentOrderItemAdjustmentObjectName": "fulfillment-order-item-adjustment",
 
       "FulfillmentOrderLineItemToProcessLayerSourceTableName": "fulfillment_order_line_item",
       "FulfillmentOrderLineItemToProcessLayerTargetTableName": "fulfillment_order_line_item",
       "FulfillmentOrderLineItemToRedshiftSourceTableName": "fulfillment_order_line_item",
-      "FulfillmentOrderLineItemToRedshiftTargetTableName": "fulfillment_order_line_item"
+      "FulfillmentOrderLineItemToRedshiftTargetTableName": "fulfillment_order_line_item",
+      "FulfillmentOrderLineItemObjectName": "fulfillment-order-line-item"
   }
 }

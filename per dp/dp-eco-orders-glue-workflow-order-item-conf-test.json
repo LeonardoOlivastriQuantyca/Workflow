@@ -3,7 +3,7 @@
       "Domain": "eco",
       "SourceSystem": "slf",
       "DataProduct": "orders",
-      "SubDataProduct": "order-item",
+      "OrderItemArea": "order-item",
       "Environment": "tst",
       
       "WorkFlowDescription": "Set of orchestrated triggers",
@@ -15,20 +15,24 @@
       "OrderItemToProcessLayerSourceTableName": "order_item",
       "OrderItemToRedshiftSourceTableName": "order_item",
       "OrderItemToRedshiftTargetTableName": "order_item",
+      "OrderItemObjectName": "order-item",
 
       "OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName": "order_item_adjustment_line_summary",
       "OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName": "order_item_adjustment_line_summary",
       "OrderItemAdjustmentLineSummaryToRedshiftSourceTableName": "order_item_adjustment_line_summary",
       "OrderItemAdjustmentLineSummaryToRedshiftTargetTableName": "order_item_adjustment_line_summary",
+      "OrderItemAdjustmentLineSummaryObjectName": "order-item-adjustment-line-summary",
       
       "OrderItemSummaryToProcessLayerSourceTableName": "order_item_summary",
       "OrderItemSummaryToProcessLayerTargetTableName": "order_item_summary",
       "OrderItemSummaryToRedshiftSourceTableName": "order_item_summary",
       "OrderItemSummaryToRedshiftTargetTableName": "order_item_summary",
+      "OrderItemSummaryObjectName": "order-item-summary",
       
       "ShipmentToProcessLayerSourceTableName": "shipment",
       "ShipmentToProcessLayerTargetTableName": "shipment",
       "ShipmentToRedshiftSourceTableName": "shipment",
-      "ShipmentToRedshiftTargetTableName": "shipment"
+      "ShipmentToRedshiftTargetTableName": "shipment",
+      "ShipmentObjectName": "shipment"
   }
 }

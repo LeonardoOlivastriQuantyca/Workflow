@@ -3,7 +3,7 @@
       "Domain": "eco",
       "SourceSystem": "slf",
       "DataProduct": "orders",
-      "SubDataProduct": "order",
+      "OrderArea": "order",
       "Environment": "tst",
 
       "WorkFlowDescription": "Set of orchestrated triggers",
@@ -15,30 +15,36 @@
       "OrderToProcessLayerTargetTableName": "order",
       "OrderToRedshiftSourceTableName": "order",
       "OrderToRedshiftTargetTableName": "order",
+      "OrderObjectName": "order",
 
       "OrderAdjustmentGroupToProcessLayerSourceTableName": "order_adjustment_group",
       "OrderAdjustmentGroupToProcessLayerTargetTableName": "order_adjustment_group",
       "OrderAdjustmentGroupToRedshiftSourceTableName": "order_adjustment_group",
       "OrderAdjustmentGroupToRedshiftTargetTableName": "order_adjustment_group",
+      "OrderAdjustmentGroupObjectName": "order-adjustment-group",
       
       "OrderAdjustmentGroupSummaryToProcessLayerSourceTableName": "order_adjustment_group_summary",
       "OrderAdjustmentGroupSummaryToProcessLayerTargetTableName": "order_adjustment_group_summary",
       "OrderAdjustmentGroupSummaryToRedshiftSourceTableName": "order_adjustment_group_summary",
       "OrderAdjustmentGroupSummaryToRedshiftTargetTableName": "order_adjustment_group_summary",
+      "OrderAdjustmentGroupSummaryObjectName": "order-adjustment-group-summary",
       
       "OrderPaymentSummaryToProcessLayerSourceTableName": "order_payment_summary",
       "OrderPaymentSummaryToProcessLayerTargetTableName": "order_payment_summary",
       "OrderPaymentSummaryToRedshiftSourceTableName": "order_payment_summary",
       "OrderPaymentSummaryToRedshiftTargetTableName": "order_payment_summary",
+      "OrderPaymentSummaryObjectName": "order-payment-summary",
       
       "OrderSummaryToProcessLayerSourceTableName": "order_summary",
       "OrderSummaryToProcessLayerTargetTableName": "order_summary",
       "OrderSummaryToRedshiftSourceTableName": "order_summary",
       "OrderSummaryToRedshiftTargetTableName": "order_summary",
+      "OrderSummaryObjectName": "order-summary",
       
       "SalesChannelToProcessLayerSourceTableName": "sales_channel",
       "SalesChannelToProcessLayerTargetTableName": "sales_channel",
       "SalesChannelToRedshiftSourceTableName": "sales_channel",
-      "SalesChannelToRedshiftTargetTableName": "sales_channel"
+      "SalesChannelToRedshiftTargetTableName": "sales_channel",
+      "SalesChannelObjectName": "sales-channel"
   }
 }
