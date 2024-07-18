@@ -26,47 +26,23 @@ Parameters:
   RuleDescription:
     Type: String
 
-  ReturnOrderToProcessLayerSourceTableName:
-    Type: String
-  ReturnOrderToProcessLayerTargetTableName:
-    Type: String
-  ReturnOrderToRedshiftSourceTableName:
-    Type: String
-  ReturnOrderToRedshiftTargetTableName:
+  ReturnOrderTableName:
     Type: String
   ReturnOrderObjectName:
     Type: String
 
-  ReturnOrderItemAdjustmentToProcessLayerSourceTableName:
-    Type: String
-  ReturnOrderItemAdjustmentToProcessLayerTargetTableName:
-    Type: String
-  ReturnOrderItemAdjustmentToRedshiftSourceTableName:
-    Type: String
-  ReturnOrderItemAdjustmentToRedshiftTargetTableName:
+  ReturnOrderItemAdjustmentTableName:
     Type: String
   ReturnOrderItemAdjustmentObjectName:
     Type: String
 
-  ReturnOrderLineItemToProcessLayerSourceTableName:
-    Type: String
-  ReturnOrderLineItemToProcessLayerTargetTableName:
-    Type: String
-  ReturnOrderLineItemToRedshiftSourceTableName:
-    Type: String
-  ReturnOrderLineItemToRedshiftTargetTableName:
+  ReturnOrderLineItemTableName:
     Type: String
   ReturnOrderLineItemObjectName:
     Type: String
 
-  RefundToProcessLayerSourceTableName:
+  RefundTableName:
     Type: String
-  RefundToProcessLayerTargetTableName:
-    Type: String
-  RefundToRedshiftSourceTableName:
-    Type: String
-  RefundToRedshiftTargetTableName:
-    Type: String 
   RefundObjectName:
     Type: String
 
@@ -108,17 +84,17 @@ Resources:
       State: ENABLED
       Targets:
         -
-         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger"
-         Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderTableName}_raw_to_odm_${ReturnOrderTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderTableName}_raw_to_odm_${ReturnOrderTableName}_${Environment}_trigger'
         -
-         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger"
-         Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentTableName}_raw_to_odm_${ReturnOrderItemAdjustmentTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentTableName}_raw_to_odm_${ReturnOrderItemAdjustmentTableName}_${Environment}_trigger'
         -
-         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger"
-         Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ReturnOrderLineItemTableName}_raw_to_odm_${ReturnOrderLineItemTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemTableName}_raw_to_odm_${ReturnOrderLineItemTableName}_${Environment}_trigger'
         -
-         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToPr ocessLayerTargetTableName}_${Environment}_trigger"
-         Id: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}_${Environment}_trigger' 
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${RefundTableName}_raw_to_odm_${RefundToPr ocessLayerTargetTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${RefundTableName}_raw_to_odm_${RefundTableName}_${Environment}_trigger' 
 
 #################################### ReturnOrder ####################################
 
@@ -128,10 +104,10 @@ Resources:
       Type: EVENT
       Description: !Sub "trigger for ${ReturnOrderObjectName} job from ingress to process layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderTableName}_raw_to_odm_${ReturnOrderTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderTableName}_raw_to_odm_${ReturnOrderTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${ReturnArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -147,15 +123,15 @@ Resources:
       Type: CONDITIONAL
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderTableName}_raw_to_odm_${ReturnOrderTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: !Sub "trigger for ${ReturnOrderObjectName} job from process to readable layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderToRedshiftTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderTableName}_odm_to_rel_${ReturnOrderTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderToRedshiftTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderTableName}_odm_to_rel_${ReturnOrderTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${ReturnArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -173,10 +149,10 @@ Resources:
       Type: EVENT
       Description: !Sub "trigger for ${ReturnOrderItemAdjustmentObjectName} job from ingress to process layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentTableName}_raw_to_odm_${ReturnOrderItemAdjustmentTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentTableName}_raw_to_odm_${ReturnOrderItemAdjustmentTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${ReturnArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -192,15 +168,15 @@ Resources:
       Type: CONDITIONAL
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentTableName}_raw_to_odm_${ReturnOrderItemAdjustmentTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: !Sub "trigger for ${ReturnOrderItemAdjustmentObjectName} job from process to readable layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderItemAdjustmentToRedshiftTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentTableName}_odm_to_rel_${ReturnOrderItemAdjustmentTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderItemAdjustmentToRedshiftTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentTableName}_odm_to_rel_${ReturnOrderItemAdjustmentTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${ReturnArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -218,10 +194,10 @@ Resources:
       Type: EVENT
       Description: !Sub "trigger for ${ReturnOrderLineItemObjectName} job from ingress to process layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemTableName}_raw_to_odm_${ReturnOrderLineItemTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemTableName}_raw_to_odm_${ReturnOrderLineItemTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${ReturnArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -237,15 +213,15 @@ Resources:
       Type: CONDITIONAL
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemTableName}_raw_to_odm_${ReturnOrderLineItemTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: !Sub "trigger for ${ReturnOrderLineItemObjectName} job from process to readable layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderLineItemToRedshiftTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemTableName}_odm_to_rel_${ReturnOrderLineItemTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderLineItemToRedshiftTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemTableName}_odm_to_rel_${ReturnOrderLineItemTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${ReturnArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -263,10 +239,10 @@ Resources:
       Type: EVENT
       Description: !Sub "trigger for ${RefundObjectName} job from ingress to process layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundTableName}_raw_to_odm_${RefundTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${RefundTableName}_raw_to_odm_${RefundTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${ReturnArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -282,15 +258,15 @@ Resources:
       Type: CONDITIONAL
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundTableName}_raw_to_odm_${RefundTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: !Sub "trigger for ${RefundObjectName} job from process to readable layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_odm_to_rel_${RefundToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundTableName}_odm_to_rel_${RefundTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_odm_to_rel_${RefundToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${RefundTableName}_odm_to_rel_${RefundTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${ReturnArea}" 
       Tags: 
         - Key: "BusinessProcess"

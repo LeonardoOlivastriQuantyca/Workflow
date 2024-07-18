@@ -26,47 +26,23 @@ Parameters:
   RuleDescription:
     Type: String
 
-  OrderItemToProcessLayerTargetTableName:
-    Type: String
-  OrderItemToProcessLayerSourceTableName:
-    Type: String
-  OrderItemToRedshiftSourceTableName:
-    Type: String
-  OrderItemToRedshiftTargetTableName:
+  OrderItemTableName:
     Type: String
   OrderItemObjectName:
     Type: String
 
-  OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName:
-    Type: String
-  OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName:
-    Type: String
-  OrderItemAdjustmentLineSummaryToRedshiftSourceTableName:
-    Type: String
-  OrderItemAdjustmentLineSummaryToRedshiftTargetTableName:
+  OrderItemAdjustmentLineSummaryTableName:
     Type: String
   OrderItemAdjustmentLineSummaryObjectName:
     Type: String
       
-  OrderItemSummaryToProcessLayerSourceTableName:
-    Type: String
-  OrderItemSummaryToProcessLayerTargetTableName:
-    Type: String
-  OrderItemSummaryToRedshiftSourceTableName:
-    Type: String
-  OrderItemSummaryToRedshiftTargetTableName:
+  OrderItemSummaryTableName:
     Type: String
   OrderItemSummaryObjectName:
     Type: String
       
-  ShipmentToProcessLayerSourceTableName:
+  ShipmentTableName:
     Type: String 
-  ShipmentToProcessLayerTargetTableName:
-    Type: String 
-  ShipmentToRedshiftSourceTableName:
-    Type: String
-  ShipmentToRedshiftTargetTableName:
-    Type: String
   ShipmentObjectName:
     Type: String
     
@@ -108,17 +84,17 @@ Resources:
       State: ENABLED
       Targets:
         -
-         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderItemToProcessLayerSourceTableName}_raw_to_odm_${OrderItemToProcessLayerTargetTableName}_${Environment}_trigger"
-         Id: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToProcessLayerSourceTableName}_raw_to_odm_${OrderItemToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderItemTableName}_raw_to_odm_${OrderItemTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${OrderItemTableName}_raw_to_odm_${OrderItemTableName}_${Environment}_trigger'
         -
-         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName}_${Environment}_trigger"
-         Id: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryTableName}_${Environment}_trigger'
         -
-         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderItemSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemSummaryToProcessLayerTargetTableName}_${Environment}_trigger"
-         Id: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${OrderItemSummaryTableName}_raw_to_odm_${OrderItemSummaryTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryTableName}_raw_to_odm_${OrderItemSummaryTableName}_${Environment}_trigger'
         -
-         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_odm_to_rel_${ShipmentToProcessLayerTargetTableName}_${Environment}_trigger"
-         Id: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_odm_to_rel_${ShipmentToProcessLayerTargetTableName}_${Environment}_trigger'
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:590184051506:trigger/${Domain}_${SourceSystem}_from_${ShipmentTableName}_odm_to_rel_${ShipmentTableName}_${Environment}_trigger"
+         Id: !Sub '${Domain}_${SourceSystem}_from_${ShipmentTableName}_odm_to_rel_${ShipmentTableName}_${Environment}_trigger'
 
 #################################### OrderItem ####################################
 
@@ -128,10 +104,10 @@ Resources:
       Type: EVENT
       Description: !Sub "trigger for ${OrderItemObjectName} job from ingress to process layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToProcessLayerSourceTableName}_raw_to_odm_${OrderItemToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemTableName}_raw_to_odm_${OrderItemTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToProcessLayerSourceTableName}_raw_to_odm_${OrderItemToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemTableName}_raw_to_odm_${OrderItemTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderItemArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -148,14 +124,14 @@ Resources:
       Description: !Sub "trigger for ${OrderItemObjectName} job from process to readable layer"
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToProcessLayerSourceTableName}_raw_to_odm_${OrderItemToProcessLayerTargetTableName}'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemTableName}_raw_to_odm_${OrderItemTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToRedshiftSourceTableName}_odm_to_rel_${OrderItemToRedshiftTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemTableName}_odm_to_rel_${OrderItemTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToRedshiftSourceTableName}_odm_to_rel_${OrderItemToRedshiftTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemTableName}_odm_to_rel_${OrderItemTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderItemArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -173,10 +149,10 @@ Resources:
       Type: EVENT
       Description: !Sub "trigger for ${OrderItemAdjustmentLineSummaryObjectName} job from ingress to process layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderItemArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -193,14 +169,14 @@ Resources:
       Description: !Sub "trigger for ${OrderItemAdjustmentLineSummaryObjectName} job from process to readable layer"
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName}'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderItemAdjustmentLineSummaryToRedshiftTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryTableName}_odm_to_rel_${OrderItemAdjustmentLineSummaryTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderItemAdjustmentLineSummaryToRedshiftTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryTableName}_odm_to_rel_${OrderItemAdjustmentLineSummaryTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderItemArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -218,10 +194,10 @@ Resources:
       Type: EVENT
       Description: !Sub "trigger for ${OrderItemSummaryObjectName} job from ingress to process layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemSummaryToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryTableName}_raw_to_odm_${OrderItemSummaryTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemSummaryToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryTableName}_raw_to_odm_${OrderItemSummaryTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderItemArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -238,14 +214,14 @@ Resources:
       Description: !Sub "trigger for ${OrderItemSummaryObjectName} job from process to readable layer"
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemSummaryToProcessLayerTargetTableName}'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryTableName}_raw_to_odm_${OrderItemSummaryTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderItemSummaryToRedshiftTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryTableName}_odm_to_rel_${OrderItemSummaryTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderItemSummaryToRedshiftTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryTableName}_odm_to_rel_${OrderItemSummaryTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderItemArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -263,10 +239,10 @@ Resources:
       Type: EVENT
       Description: !Sub "trigger for ${ShipmentObjectName} job from ingress to process layer"
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_raw_to_odm_${ShipmentToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ShipmentTableName}_raw_to_odm_${ShipmentTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_raw_to_odm_${ShipmentToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ShipmentTableName}_raw_to_odm_${ShipmentTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderItemArea}" 
       Tags: 
         - Key: "BusinessProcess"
@@ -283,14 +259,14 @@ Resources:
       Description: !Sub "trigger for ${ShipmentObjectName} job from process to readable layer"
       Predicate:
         Conditions:
-          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_raw_to_odm_${ShipmentToProcessLayerTargetTableName}'
+          - JobName: !Sub '${Domain}_${SourceSystem}_from_${ShipmentTableName}_raw_to_odm_${ShipmentTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Actions:
-        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_odm_to_rel_${ShipmentToProcessLayerTargetTableName}'
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${ShipmentTableName}_odm_to_rel_${ShipmentTableName}'
           Arguments:
             '--job-bookmark-option': job-bookmark-enable   
-      Name: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_odm_to_rel_${ShipmentToProcessLayerTargetTableName}_${Environment}_trigger'
+      Name: !Sub '${Domain}_${SourceSystem}_from_${ShipmentTableName}_odm_to_rel_${ShipmentTableName}_${Environment}_trigger'
       WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${OrderItemArea}" 
       Tags: 
         - Key: "BusinessProcess"
