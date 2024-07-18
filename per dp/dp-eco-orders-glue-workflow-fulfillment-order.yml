@@ -103,7 +103,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderToProcessLayerTargetTableName}'
           Arguments:
@@ -125,7 +124,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderToRedshiftSourceTableName}_odm_to_rel_${FulfillmentOrderToRedshiftTargetTableName}'
           Arguments:
@@ -144,7 +142,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderItemAdjustmentToProcessLayerTargetTableName}'
           Arguments:
@@ -166,7 +163,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${FulfillmentOrderItemAdjustmentToRedshiftTargetTableName}'
           Arguments:
@@ -185,7 +181,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${FulfillmentOrderLineItemToProcessLayerTargetTableName}'
           Arguments:
@@ -207,7 +202,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${FulfillmentOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${FulfillmentOrderLineItemToRedshiftTargetTableName}'
           Arguments:

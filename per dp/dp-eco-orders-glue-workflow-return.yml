@@ -114,7 +114,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderToProcessLayerTargetTableName}'
           Arguments:
@@ -136,7 +135,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderToRedshiftTargetTableName}'
           Arguments:
@@ -155,7 +153,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderItemAdjustmentToProcessLayerTargetTableName}'
           Arguments:
@@ -177,7 +174,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderItemAdjustmentToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderItemAdjustmentToRedshiftTargetTableName}'
           Arguments:
@@ -196,7 +192,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToProcessLayerSourceTableName}_raw_to_odm_${ReturnOrderLineItemToProcessLayerTargetTableName}'
           Arguments:
@@ -218,7 +213,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ReturnOrderLineItemToRedshiftSourceTableName}_odm_to_rel_${ReturnOrderLineItemToRedshiftTargetTableName}'
           Arguments:
@@ -237,7 +231,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_raw_to_odm_${RefundToProcessLayerTargetTableName}'
           Arguments:
@@ -259,7 +252,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${RefundToProcessLayerSourceTableName}_odm_to_rel_${RefundToProcessLayerTargetTableName}'
           Arguments:

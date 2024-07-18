@@ -7,6 +7,9 @@
       "Environment": "prd",
 
       "WorkFlowDescription": "Set of orchestrated triggers",
+      "EnableConcurrentRuns": "false",
+      "ConcurrentRuns": 100000,
+      "RuleDescription": "Starts the workflow with an hourly schedule",
 
       "FulfillmentOrderToProcessLayerSourceTableName": "fulfillment_order",
       "FulfillmentOrderToProcessLayerTargetTableName": "fulfillment_order",

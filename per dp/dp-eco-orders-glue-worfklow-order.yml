@@ -138,7 +138,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderToProcessLayerSourceTableName}_raw_to_odm_${OrderToProcessLayerTargetTableName}'
           Arguments:
@@ -160,8 +159,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderToRedshiftSourceTableName}_odm_to_rel_${OrderToRedshiftTargetTableName}'
           Arguments:
@@ -180,7 +177,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupToProcessLayerTargetTableName}'
           Arguments:
@@ -202,8 +198,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupToRedshiftTargetTableName}'
           Arguments:
@@ -222,7 +216,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderAdjustmentGroupSummaryToProcessLayerTargetTableName}'
           Arguments:
@@ -244,7 +237,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderAdjustmentGroupSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderAdjustmentGroupSummaryToRedshiftTargetTableName}'
           Arguments:
@@ -263,7 +255,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderPaymentSummaryToProcessLayerTargetTableName}'
           Arguments:
@@ -285,8 +276,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderPaymentSummaryToProcessLayerSourceTableName}_odm_to_rel_${OrderPaymentSummaryToProcessLayerTargetTableName}'
           Arguments:
@@ -305,7 +294,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderSummaryToProcessLayerTargetTableName}'
           Arguments:
@@ -327,8 +315,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderSummaryToRedshiftTargetTableName}'
           Arguments:
@@ -347,7 +333,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_raw_to_odm_${SalesChannelToProcessLayerTargetTableName}'
           Arguments:
@@ -369,8 +354,6 @@ Resources:
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
       Description: DESCRIPTION_SCHEDULED
-      Schedule: cron(0 21 ? * MON-SUN *)
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${SalesChannelToProcessLayerSourceTableName}_odm_to_rel_${SalesChannelToProcessLayerTargetTableName}'
           Arguments:

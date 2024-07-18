@@ -114,7 +114,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToProcessLayerSourceTableName}_raw_to_odm_${OrderItemToProcessLayerTargetTableName}'
           Arguments:
@@ -136,7 +135,6 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToProcessLayerSourceTableName}_raw_to_odm_${OrderItemToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemToRedshiftSourceTableName}_odm_to_rel_${OrderItemToRedshiftTargetTableName}'
           Arguments:
@@ -155,7 +153,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName}'
           Arguments:
@@ -177,7 +174,6 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemAdjustmentLineSummaryToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemAdjustmentLineSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderItemAdjustmentLineSummaryToRedshiftTargetTableName}'
           Arguments:
@@ -196,7 +192,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemSummaryToProcessLayerTargetTableName}'
           Arguments:
@@ -218,7 +213,6 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToProcessLayerSourceTableName}_raw_to_odm_${OrderItemSummaryToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${OrderItemSummaryToRedshiftSourceTableName}_odm_to_rel_${OrderItemSummaryToRedshiftTargetTableName}'
           Arguments:
@@ -237,7 +231,6 @@ Resources:
     Properties:
       Type: EVENT
       Description: DESCRIPTION_SCHEDULED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_raw_to_odm_${ShipmentToProcessLayerTargetTableName}'
           Arguments:
@@ -259,7 +252,6 @@ Resources:
           - JobName: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_raw_to_odm_${ShipmentToProcessLayerTargetTableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED
-      # StartOnCreation: true
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${ShipmentToProcessLayerSourceTableName}_odm_to_rel_${ShipmentToProcessLayerTargetTableName}'
           Arguments:
