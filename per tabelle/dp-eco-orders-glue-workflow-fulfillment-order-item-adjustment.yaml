@@ -47,7 +47,7 @@ Resources:
       - !Ref "AWS::NoValue"
       Name: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${TableArea}"
       Tags: 
-        - BusinessProcess: "Direct to Customer"
+        - BusinessProcess: "Direct-to-Customer"
         - FunctionalArea: "eCommerce"
         - Supplier: "Quantyca"
 
@@ -61,7 +61,7 @@ Resources:
       Type: EVENT
       WorkflowName: !Sub "${TableName}-workflow"
       Tags:
-        - BusinessProcess: "Direct to Customer"
+        - BusinessProcess: "Direct-to-Customer"
         - FunctionalArea: "eCommerce"
         - Supplier: "Quantyca"
 
@@ -81,7 +81,7 @@ Resources:
         Logical: AND
       WorkflowName: !Sub "${TableName}-workflow"
       Tags:
-        - BusinessProcess: "Direct to Customer"
+        - BusinessProcess: "Direct-to-Customer"
         - FunctionalArea: "eCommerce"
         - Supplier: "Quantyca"
 
