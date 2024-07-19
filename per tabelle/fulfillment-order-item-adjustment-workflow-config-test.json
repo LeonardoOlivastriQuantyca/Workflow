@@ -1,6 +1,7 @@
 {
     "Parameters": {
         "Domain": "eco",
+        "DataProduct": "orders",
         "SourceDest": "slf",
         "ServiceName": "s3",
         "LayerName": "ing",
@@ -9,9 +10,11 @@
         "WorkFlowDescription": "This workflow contains all the glue jobs from ingress to process layer",
         "ConcurrentRunsSpecified": "false",
         "ConcurrentRuns": 10,
+        "State": "ENABLED", 
         "TableName": "fulfillment_order_item_adjustment",
         "TableArea": "fulfillment-order-item-adjustment",
         "IngressToProcessTriggerDescription": "Triggers that detects any event in the ingress layer",
         "ProcessToReadableTriggerDescription": "Triggers that detects any event in the process layer"
+
     }
 }
