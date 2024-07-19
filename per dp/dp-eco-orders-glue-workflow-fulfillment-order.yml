@@ -74,7 +74,14 @@ Resources:
     Type: AWS::Events::Rule
     Properties: 
       Description: !Ref RuleDescription
-      ScheduleExpression: cron(0 * ? * MON-SUN *)
+      EventPattern:
+        source:
+          - "aws.appflow"
+        detail-type:
+         - "AppFlow Flow Execution Status"
+        detail:
+          status:
+            - "Successful"
       Name: !Sub "dp-${Domain}-${DataProduct}-workflow-${FulfillmentOrderArea}-${Environment}-triggering-rule"
       State: ENABLED
       Targets:

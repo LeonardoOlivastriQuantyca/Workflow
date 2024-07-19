@@ -1,13 +1,16 @@
 {
     "Parameters": {
         "Domain": "eco",
-        "SourceDest": "PLACEHOLDER",
+        "SourceDest": "slf",
+        "ServiceName": "s3",
+        "LayerName": "ing",
+        "BucketName": "eco-slf-tst-ing-raw-orders",
+        "Environment": "test",
         "WorkFlowDescription": "This workflow contains all the glue jobs from ingress to process layer",
-        "ConcurrentRunsEnabled": "false",
-        "ConcurrentRuns": 100000,
-        "IngressToProcessJob": "move-fulfillment-order-item-adjustment-to-process-layer",
-        "ProcessToReadableJob": "move-fulfillment-order-item-adjustment-to-redshift",
-        "TableName": "fulfillment-order-item-adjustment",
+        "ConcurrentRunsSpecified": "false",
+        "ConcurrentRuns": 10,
+        "TableName": "fulfillment_order_item_adjustment",
+        "TableArea": "fulfillment-order-item-adjustment",
         "IngressToProcessTriggerDescription": "Triggers that detects any event in the ingress layer",
         "ProcessToReadableTriggerDescription": "Triggers that detects any event in the process layer"
     }

@@ -3,19 +3,25 @@ Parameters:
     Type: String
   SourceDest:
     Type: String
+  ServiceName:
+    Type: String
+  LayerName:
+    Type: String
+  BucketName:
+    Type: String
+  Environment: 
+    Type: String
   WorkFlowDescription:
     Type: String
-  ConcurrentRunsEnabled:
+  ConcurrentRunsSpecified:
     Type: String
     AllowedValues: [true, false]
   ConcurrentRuns:
-    Type: Integer
-  IngressToProcessJob:
-    Type: String
-  ProcessToReadableJob:
-    Type: String
+    Type: Number
     
   TableName:
+    Type: String
+  TableArea:
     Type: String
   IngressToProcessTriggerDescription:
     Type: String
@@ -24,21 +30,18 @@ Parameters:
 
 
 Conditions:
-  EnableConcurrentRuns: !Equals [!Ref ConcurrentRunsEnabled, 'true']
+  SpecifyConcurrentRuns: !Equals [!Ref ConcurrentRunsSpecified, 'true']
 
 
 Resources:
+
   JobsWorkFlow:
     Type: AWS::Glue::Workflow
     Properties:
       Description: !Ref WorkFlowDescription
-      DefaultRunProperties: !Ref "AWS::NoValue"
-      MaxConcurrentRuns:
-      !If
-      - EnableConcurrentRuns
-      - !Ref ConcurrentRuns
+      MaxConcurrentRuns: !If [SpecifyConcurrentRuns, !Ref ConcurrentRuns, !Ref "AWS::NoValue"]
       - !Ref "AWS::NoValue"
-      Name: !Sub "${TableName}-workflow"
+      Name: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${TableArea}"
       Tags: 
         - Key: "BusinessProcess"
           Value: "Direct to Customer"
@@ -51,9 +54,9 @@ Resources:
     Type: AWS::Glue::Trigger
     Properties:
       Actions:
-        - JobName: !Ref IngressToProcessJob
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${TableName}_raw_to_odm_${TableName}'
       Description: !Ref IngressToProcessTriggerDescription
-      Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-raw-to-odm-${TableName}-trigger"
+      Name: !Sub "${Domain}_${SourceDest}_from_${TableName}_raw_to_odm_${TableName}_${Environment}_trigger"
       Type: EVENT
       WorkflowName: !Sub "${TableName}-workflow"
       Tags:
@@ -68,21 +71,39 @@ Resources:
     Type: AWS::Glue::Trigger
     Properties:
       Actions:
-        - JobName: !Ref ProcessToReadableJob
+        - JobName: !Sub '${Domain}_${SourceSystem}_from_${TableName}_odm_to_rel_${TableName}'
       Description: !Ref ProcessToReadableTriggerDescription
-      Name: !Sub "${Domain}-${SourceDest}-from-${TableName}-odm-to-rel-${TableName}-trigger"
+      Name: !Sub "${Domain}_${SourceDest}_from_${TableName}_odm_to_rel_${TableName}_${Environment}_trigger"
       Type: CONDITIONAL
       Predicate:
         Conditions:
-          - JobName: !Ref ProcessToReadableJob
+          - JobName: !Ref '${Domain}_${SourceSystem}_from_${TableName}_raw_to_odm_${TableName}'
           - LogicalOperator: EQUALS
           - State: SUCCEEDED 
         Logical: AND
       WorkflowName: !Sub "${TableName}-workflow"
       Tags:
-        - Key: "BusinessProcess"
-          Value: "Direct to Customer"
-        - Key: "FunctionalArea"
-          Value: "eCommerce"
-        - Key: "Supplier"
-          Value: "Quantyca"
+        - BusinessProcess: "Direct to Customer"
+        - FunctionalArea: "eCommerce"
+        - Supplier: "Quantyca"
+
+  WorkflowStartRule:
+    Type: AWS::Events::Rule
+    Properties: 
+      Description: !Ref RuleDescription
+      EventPattern:
+        source:
+          - "aws.appflow"
+        resource:
+          - !Sub "arn:aws:appflow:eu-west-1:account-id:flow/${Domain}-from-${SourceDest}-${FulfillmentOrderItemAdjustmentSourceObject}-to-${ServiceName}-${LayerName}-${BucketName}"
+        detail-type:
+         - "AppFlow Flow Execution Status"
+        detail:
+          status:
+            - "Successful"
+      Name: !Sub "dp-${Domain}-${DataProduct}-workflow-${TableArea}-${Environment}-triggering-rule"
+      State: ENABLED
+      Targets:
+        -
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:592141405271:trigger/${Domain}_${SourceDest}_from_${TableName}_raw_to_odm_${TableName}_${Environment}_trigger"
+         Id: !Sub "${Domain}_${SourceSystem}_from_${TableName}_raw_to_odm_${TableName}_${Environment}_trigger"
