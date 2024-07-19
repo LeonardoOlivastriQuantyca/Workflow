@@ -101,7 +101,7 @@ Resources:
         source:
           - "aws.appflow"
         resource:
-          - !Sub "arn:aws:appflow:eu-west-1:account-id:flow/${Domain}-from-${SourceSystem}-${TableArea}-to-${ServiceName}-${LayerName}-${BucketName}"
+          - !Sub "arn:aws:appflow:eu-west-1:592141405271:flow/${Domain}-from-${SourceSystem}-${TableArea}-to-${ServiceName}-${LayerName}-${BucketName}"
         detail-type:
          - "AppFlow Flow Execution Status"
         detail:
