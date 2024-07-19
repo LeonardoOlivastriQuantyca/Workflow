@@ -93,6 +93,7 @@ Resources:
 
 
 ############################### RuleToStartWorkflow ###########################
+
   WorkflowStartRule:
     Type: AWS::Events::Rule
     Properties: 
