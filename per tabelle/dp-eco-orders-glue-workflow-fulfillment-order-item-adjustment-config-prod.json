@@ -2,7 +2,7 @@
     "Parameters": {
         "Domain": "eco",
         "DataProduct": "orders",
-        "SourceDest": "slf",
+        "SourceSystem": "slf",
         "ServiceName": "s3",
         "LayerName": "ing",
         "BucketName": "eco-slf-tst-ing-raw-orders",

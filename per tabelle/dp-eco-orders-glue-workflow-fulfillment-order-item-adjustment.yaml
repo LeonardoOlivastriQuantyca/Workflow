@@ -3,7 +3,7 @@ Parameters:
     Type: String
   DataProduct:
     Type: String
-  SourceDest:
+  SourceSystem:
     Type: String
   ServiceName:
     Type: String
@@ -39,17 +39,23 @@ Conditions:
 
 Resources:
 
+
+############################### Workflow ###########################
+
   JobsWorkFlow:
     Type: AWS::Glue::Workflow
     Properties:
       Description: !Ref WorkFlowDescription
-      MaxConcurrentRuns: !If [SpecifyConcurrentRuns, !Ref ConcurrentRuns, !Ref "AWS::NoValue"]
-      - !Ref "AWS::NoValue"
+      MaxConcurrentRuns: 10
+      #MaxConcurrentRuns: !If [SpecifyConcurrentRuns, !Ref ConcurrentRuns, !Ref "AWS::NoValue"]
       Name: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${TableArea}"
       Tags: 
         - BusinessProcess: "Direct-to-Customer"
         - FunctionalArea: "eCommerce"
         - Supplier: "Quantyca"
+
+
+############################### Triggers ###########################
 
   IngressProcessTrigger:
     Type: AWS::Glue::Trigger
@@ -57,9 +63,9 @@ Resources:
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${TableName}_raw_to_odm_${TableName}'
       Description: !Ref IngressToProcessTriggerDescription
-      Name: !Sub "${Domain}_${SourceDest}_from_${TableName}_raw_to_odm_${TableName}_${Environment}_trigger"
+      Name: !Sub "${Domain}_${SourceSystem}_from_${TableName}_raw_to_odm_${TableName}_${Environment}_trigger"
       Type: EVENT
-      WorkflowName: !Sub "${TableName}-workflow"
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${TableArea}"
       Tags:
         - BusinessProcess: "Direct-to-Customer"
         - FunctionalArea: "eCommerce"
@@ -71,7 +77,7 @@ Resources:
       Actions:
         - JobName: !Sub '${Domain}_${SourceSystem}_from_${TableName}_odm_to_rel_${TableName}'
       Description: !Ref ProcessToReadableTriggerDescription
-      Name: !Sub "${Domain}_${SourceDest}_from_${TableName}_odm_to_rel_${TableName}_${Environment}_trigger"
+      Name: !Sub "${Domain}_${SourceSystem}_from_${TableName}_odm_to_rel_${TableName}_${Environment}_trigger"
       Type: CONDITIONAL
       Predicate:
         Conditions:
@@ -79,12 +85,14 @@ Resources:
             LogicalOperator: EQUALS
             State: SUCCEEDED 
         Logical: AND
-      WorkflowName: !Sub "${TableName}-workflow"
+      WorkflowName: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${TableArea}"
       Tags:
         - BusinessProcess: "Direct-to-Customer"
         - FunctionalArea: "eCommerce"
         - Supplier: "Quantyca"
 
+
+############################### RuleToStartWorkflow ###########################
   WorkflowStartRule:
     Type: AWS::Events::Rule
     Properties: 
@@ -93,15 +101,15 @@ Resources:
         source:
           - "aws.appflow"
         resource:
-          - !Sub "arn:aws:appflow:eu-west-1:account-id:flow/${Domain}-from-${SourceDest}-${TableArea}-to-${ServiceName}-${LayerName}-${BucketName}"
+          - !Sub "arn:aws:appflow:eu-west-1:account-id:flow/${Domain}-from-${SourceSystem}-${TableArea}-to-${ServiceName}-${LayerName}-${BucketName}"
         detail-type:
          - "AppFlow Flow Execution Status"
         detail:
           status:
             - "Successful"
-      Name: !Sub "dp-${Domain}-${DataProduct}-workflow-${TableArea}-${Environment}-triggering-rule"
+      Name: !Sub "dp-${Domain}-${DataProduct}-glue-workflow-${TableArea}-${Environment}-triggering-rule"
       State: !Ref State
       Targets:
         -
-         Arn: !Sub "arn:aws:glue:${AWS::Region}:592141405271:trigger/${Domain}_${SourceDest}_from_${TableName}_raw_to_odm_${TableName}_${Environment}_trigger"
-         Id: !Sub "${Domain}_${SourceDest}_from_${TableName}_raw_to_odm_${TableName}_${Environment}_trigger"
+         Arn: !Sub "arn:aws:glue:${AWS::Region}:592141405271:trigger/${Domain}_${SourceSystem}_from_${TableName}_raw_to_odm_${TableName}_${Environment}_trigger"
+         Id: !Sub "${Domain}_${SourceSystem}_from_${TableName}_raw_to_odm_${TableName}_${Environment}_trigger"
